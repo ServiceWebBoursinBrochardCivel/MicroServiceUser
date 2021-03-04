@@ -8,9 +8,11 @@ def search():
     conn = connection.db_connection()
     cursor= conn.cursor()
     user = None
+
     if request.method =='POST':
-        mail = request.form['mail']
-        password = request.form['password']
+        data = request.get_json()
+        mail = data['mail']
+        password = data['password']
         sql = """SELECT * FROM user WHERE mail =? and password =?"""
         cursor.execute(sql,(mail,password))
         rows = cursor.fetchall()
