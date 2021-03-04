@@ -1,36 +1,7 @@
-from flask import Blueprint,request,jsonify
+from ApiFiles.userApi import user_api
+from ApiFiles.SearchApi import search_api
 import DatabaseFiles.connection as connection
 
-user_api = Blueprint('user_api',__name__)
-
-
-
-@user_api.route('/users', methods=['GET','POST'])
-def users() :
-    conn = connection.db_connection()
-    cursor = conn.cursor()
-    if request.method=='GET':
-        cursor.execute("SELECT * FROM user")
-        users = [
-            dict(id=row[0],pseudo = row[1], mail=row[2], password=row[3])
-            for row in cursor.fetchall()
-        ]
-        if users is not None :
-            cursor.close()
-            conn.close()
-            return jsonify(users)
-    if request.method=='POST':
-        new_pseudo = request.form['pseudo']
-        new_mail = request.form['mail']
-        new_password = request.form['password']
-        sql = """INSERT INTO user (pseudo,mail,password) VALUES (?,?,?) """
-        cursor.execute(sql,(new_pseudo,new_mail,new_password))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return f"User with the id {cursor.lastrowid} created successful"
-
-@user_api.route('/user/<int:id>',methods=['GET','PUT','DELETE'])
 def single_user(id):
     conn = connection.db_connection()
     cursor = conn.cursor()
@@ -77,3 +48,7 @@ def single_user(id):
         cursor.close()
         conn.close()
         return "User with the id {} has been deleted".format(id),200
+
+def test_supp():
+    request.method = 'DELETE'
+    assert single_user(2) == "User with the id 2 has been deleted"

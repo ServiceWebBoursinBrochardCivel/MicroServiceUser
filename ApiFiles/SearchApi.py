@@ -3,25 +3,26 @@ import DatabaseFiles.connection as connection
 
 search_api = Blueprint('search_api',__name__)
 
-@search_api.route('/search/<string:pseudo>',methods=['GET'])
-def search(pseudo):
+@search_api.route('/search',methods=['POST'])
+def search():
     conn = connection.db_connection()
     cursor= conn.cursor()
-    if request.method=='GET' :
-        cursor.execute("SELECT * FROM user where pseudo = ?",(str(pseudo),))
+    user = None
+    if request.method =='POST':
+        mail = request.form['mail']
+        password = request.form['password']
+        sql = """SELECT * FROM user WHERE mail =? and password =?"""
+        cursor.execute(sql,(mail,password))
         rows = cursor.fetchall()
-        if(len(rows)>0) :
-            for r in rows :
-                user = r
-            if user is not None :
-                cursor.close()
-                conn.close()
-                return jsonify(user),200
-            else :
-                cursor.close()
-                conn.close()
-                return "Something wrong",404
-        else :
-            cursor.close()
-            conn.close()
-            return "Something wrong",404
+        for r in rows :
+            user = r
+        conn.commit()
+        cursor.close()
+        conn.close()
+        if user is not None:
+            return f"Existant"
+        return f"Innexistant"
+
+
+
+      

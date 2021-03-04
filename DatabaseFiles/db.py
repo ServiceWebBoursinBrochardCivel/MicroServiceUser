@@ -2,7 +2,6 @@ import mariadb
 import connection
 
 conn = connection.db_connection()
-
 cursor = conn.cursor()
 
 sql_database = """ USE beers """
