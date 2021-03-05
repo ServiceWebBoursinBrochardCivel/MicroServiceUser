@@ -1,8 +1,15 @@
 import mariadb
+import os
 
 def db_connection():
     conn = None
-    try : conn = mariadb.connect(user='test', password='test', host='127.0.0.1',database='compta')
+
+    db_user = os.getenv('DB_USER')
+    db_password = os.getenv('DB_PASSWORD')
+    db_host = os.getenv('DB_HOST')
+    db_database = os.getenv('DB_DATABASE')
+
+    try : conn = mariadb.connect(user= db_user, password= db_password, host= db_host,database= db_database)
     except mariadb.Error as e:
         print('erreur')
     return conn

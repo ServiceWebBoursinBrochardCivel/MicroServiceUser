@@ -3,7 +3,7 @@ import DatabaseFiles.connection as connection
 
 search_api = Blueprint('search_api',__name__)
 
-@search_api.route('/search',methods=['POST'])
+@search_api.route('/login',methods=['POST'])
 def search():
     conn = connection.db_connection()
     cursor= conn.cursor()
