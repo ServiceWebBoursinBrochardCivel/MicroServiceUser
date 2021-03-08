@@ -1,7 +1,7 @@
 import mariadb
-import connection
+from DatabaseManager.connection import db_connection
 
-conn = connection.db_connection()
+conn = db_connection()
 
 cursor = conn.cursor()
 
@@ -45,3 +45,5 @@ cursor.execute(sql_querybis)
 cursor.execute(sql_querybis_bis)
 cursor.execute(sql_user)
 cursor.execute(sql_beer)
+cursor.close()
+conn.close()

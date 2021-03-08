@@ -12,11 +12,9 @@ class JwtService():
         encoded_jwt = jwt.encode({'user_id' : user.getId(), 'exp' : dt}, JwtService.SECRET, algorithm = JwtService.ALGOS)
         return encoded_jwt
 
-    def verify(self, token):
-        decoded_jwt = {}
-        
+    def verify(self, token):        
         try :
-            decoded_jwt = jwt.decode(token, JwtService.SECRET, algorithm = JwtService.ALGOS)
+            jwt.decode(token, JwtService.SECRET, algorithm = JwtService.ALGOS)
         except jwt.ExpiredSignatureError :
             print("pas à jour")
             return False

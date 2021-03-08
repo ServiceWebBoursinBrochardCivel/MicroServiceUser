@@ -3,9 +3,9 @@ from Models.user import User
 from TokenHandler.jwtService import JwtService
 from DatabaseManager.connection import db_connection
 
-search_api = Blueprint('search_api',__name__)
+connect_api = Blueprint('connect_api',__name__)
 
-@search_api.route('/login',methods=['POST'])
+@connect_api.route('/login',methods=['POST'])
 def login():
     conn = db_connection()
     cursor= conn.cursor()
@@ -26,10 +26,9 @@ def login():
         conn.close()
         return "Can't authenticate", 401
 
-@search_api.route('/verify', methods=['POST'])
+@connect_api.route('/verify', methods=['POST'])
 def check():
     if request.method == 'POST' :
-        token = ""
         data = request.get_json()
         token = data['token']
         if JwtService().verify(token) :
