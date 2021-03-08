@@ -8,7 +8,7 @@ CORS(app)
 
 
 app.register_blueprint(user_api)
-app.register_blueprint(search_api)
+app.register_blueprint(connect_api)
 
 if __name__ =='__main__' :
     app.run(port=5001)
