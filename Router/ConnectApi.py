@@ -13,10 +13,10 @@ def login():
 
     if request.method =='POST':
         data = request.get_json()
-        mail = data['mail']
+        pseudo = data['pseudo']
         password = data['password']
-        sql = """SELECT id, pseudo, mail, password FROM user WHERE mail =? and password =?"""
-        cursor.execute(sql,(mail,password))
+        sql = """SELECT id, pseudo, mail, password FROM user WHERE pseudo =? and password =?"""
+        cursor.execute(sql,(pseudo,password))
         row = cursor.fetchone()
         if row is not None :
             user = User(row[0], row[1], row[2], row[3])
