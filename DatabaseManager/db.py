@@ -37,8 +37,6 @@ sql_beer = """ INSERT INTO beer (name,percentageAlcohol,category) VALUES
 
 sql_user = """ INSERT INTO user (pseudo,mail,password) VALUES ('test','test@test.com','test'); """
 
-sql_commit = """ COMMIT;"""
-
 cursor.execute(sql_database)
 cursor.execute(sql_database1)
 cursor.execute(sql_database2)
@@ -47,4 +45,3 @@ cursor.execute(sql_querybis)
 cursor.execute(sql_querybis_bis)
 cursor.execute(sql_user)
 cursor.execute(sql_beer)
-cursor.execute(sql_commit)

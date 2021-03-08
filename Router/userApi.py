@@ -1,5 +1,5 @@
 from flask import Blueprint,request,jsonify
-import DatabaseFiles.connection as connection
+from DatabaseManager.connection import db_connection
 
 user_api = Blueprint('user_api',__name__)
 
@@ -7,7 +7,7 @@ user_api = Blueprint('user_api',__name__)
 
 @user_api.route('/users', methods=['GET','POST'])
 def users() :
-    conn = connection.db_connection()
+    conn = db_connection()
     cursor = conn.cursor()
     if request.method=='GET':
         cursor.execute("SELECT * FROM user")
@@ -33,7 +33,7 @@ def users() :
 
 @user_api.route('/user/<int:id>',methods=['GET','DELETE'])
 def single_user(id):
-    conn = connection.db_connection()
+    conn = db_connection()
     cursor = conn.cursor()
     user = None
     if request.method == 'GET':
