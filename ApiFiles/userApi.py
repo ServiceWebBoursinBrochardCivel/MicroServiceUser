@@ -20,17 +20,18 @@ def users() :
             conn.close()
             return jsonify(users)
     if request.method=='POST':
-        new_pseudo = request.form['pseudo']
-        new_mail = request.form['mail']
-        new_password = request.form['password']
-        sql = """INSERT INTO user (pseudo,mail,password) VALUES (?,?,?) """
-        cursor.execute(sql,(new_pseudo,new_mail,new_password))
+        data = request.get_json()
+        pseudo = data['pseudo']
+        mail = data['mail']
+        password = data ['password']
+        sql = """INSERT INTO user (pseudo,mail,password) VALUES (?,?,?); """
+        cursor.execute(sql,(pseudo,mail,password))
         conn.commit()
         cursor.close()
         conn.close()
         return f"User with the id {cursor.lastrowid} created successful"
 
-@user_api.route('/user/<int:id>',methods=['GET','PUT','DELETE'])
+@user_api.route('/user/<int:id>',methods=['GET','DELETE'])
 def single_user(id):
     conn = connection.db_connection()
     cursor = conn.cursor()
@@ -49,26 +50,6 @@ def single_user(id):
             conn.close()
             return "Something wrong",404
 
-    if request.method == 'PUT' :
-        sql = """UPDATE user
-                SET pseudo = ?,
-                    mail=?,
-                    password=?
-                WHERE id=? """
-        pseudo= request.form["pseudo"]
-        mail = request.form["mail"]
-        password = request.form["password"]
-        updated_user = {
-            'id':id,
-            'pseudo' : pseudo,
-            'mail' : mail,
-            'password' : password
-        }
-        cursor.execute(sql,(pseudo,mail,password,int(id)))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return jsonify(updated_user)
 
     if request.method == 'DELETE':
         sql = """ DELETE FROM user WHERE id=? """
