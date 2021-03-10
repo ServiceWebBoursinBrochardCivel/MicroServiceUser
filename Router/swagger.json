@@ -1,0 +1,266 @@
+{
+    "openapi":"3.0.0",
+    "info" :{
+        "description":"Swagger documentation of our UserApi",
+        "version":"1.0.0",
+        "title":"UserApi",
+        "contact":{
+            "email" : "..."
+        }
+    },
+    "servers" :[
+        {
+            "url" : "/"
+        }
+    ],
+    "tags" :[
+        {
+            "name" : "User Request",
+            "description" : "User Api request"
+        },
+        {
+            "name" : "Login Request",
+            "description" : "Connection Api request"
+        },
+        {
+            "name" : "Verification Request",
+            "decription" : "Verification Token Request"
+        }
+    ],
+    "paths" : {
+        "/users" :{
+            "get" :{
+                "tags" :[
+                    "User Request"
+                ],
+                "summary" : "Returns all users",
+                "responses" : {
+                    "200" :{
+                        "description" : "OK",
+                        "schema" :{
+                            "$ref":"#/components/schemas/userRequest"
+                        }
+                    }
+                }
+            },
+            "post" :{
+                "tags" :[
+                    "User Request"
+                ],
+                "summary" : "Create a new user beerRequetes",
+                "requestBody":{
+                    "decription":"User Request",
+                    "required" : true,
+                    "content" : {
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/userRequest"
+                            }
+                        }
+                    }
+                },
+                "produces" : [
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description" : "OK",
+                        "schema" :{
+                            "$ref":"#/components/schemas/userRequest"
+                        }
+                    }
+                },
+                "400" :{
+                    "description" : "Failde. Bad post data"
+                }
+            }
+        },
+        "/user/{id}" :{
+            "parameters" :[
+                {
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "decription": "ID of the user",
+                    "type":"integer"
+                }
+            ],
+            "get" : {
+                "tags" :[
+                    "User Request"
+                ],
+                "summary" : "Get user with given ID",
+                "parameters" :[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "required":true,
+                        "decription": "ID of the user",
+                        "schema":{
+                            "$ref":"#/components/schemas/id"
+                        }
+                    }
+            ],
+                "responses" : {
+                    "200" :{
+                        "description" : "OK",
+                        "schema" :{
+                            "$ref":"#/components/schemas/userRequest"
+                        }
+                    },
+                    "400":{
+                        "decription" : "Failed. User id not correct"
+                    },
+                    "404" :{
+                        "description" : "Something Wrong"
+                    }
+                }
+            },
+            "delete" : {
+                "tags" :[
+                    "User Request"
+                ],
+                "summary" : "Delete user with given ID",
+                "parameters" :[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "required":true,
+                        "decription": "ID of the user",
+                        "schema":{
+                            "$ref":"#/components/schemas/id"
+                        }
+                    }
+                ],
+                "responses" : {
+                    "204" :{
+                        "description" : "OK",
+                        "schema" :{
+                            "$ref":"#/components/schemas/userRequest"
+                        }
+                    },
+                    "400":{
+                        "decription" : "Failed. User id not correct"
+                    },
+                    "404" :{
+                        "description" : "Somethong Wrong"
+                    }
+                }
+            }
+        },
+        "/login" :{
+            "post" :{
+                "tags" :[
+                    "Login Request"
+                ],
+                "summary" : "Login a user",
+                "requestBody":{
+                    "decription":"Beer Request Object",
+                    "required" : true,
+                    "content" : {
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/loginRequest"
+                            }
+                        }
+                    }
+                },
+                "produces" : [
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description" : "OK",
+                        "schema" :{
+                            "$ref":"#/components/schemas/token"
+                        }
+                    }
+                },
+                "400" :{
+                    "description" : "Failed. Bad post data"
+                }
+            }
+        },
+        "/verify" :{
+            "post" :{
+                "tags" :[
+                    "Verification Request"
+                ],
+                "summary" : "Verification of a token",
+                "requestBody":{
+                    "decription":"Beer Request Object",
+                    "required" : true,
+                    "content" : {
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/token"
+                            }
+                        }
+                    }
+                },
+                "produces" : [
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description" : "OK",
+                        "schema" :{
+                            "$ref":"#/components/schemas/token"
+                        }
+                    }
+                },
+                "401" :{
+                    "description" : "Failed. Bad post data"
+                }
+            }
+        }
+    },
+    "components":{
+        "schemas":{
+            "id" :{
+                "properties" :{
+                    "id" :{
+                        "type" : "integer"
+                    }
+                }
+            },
+            "token" :{
+                "properties":{
+                    "token":{
+                        "type":"string"
+                    }
+                }
+            },
+            "userRequest" :{
+                "type" : "object",
+                "properties" :{
+                    "pseudo" :{
+                        "type" : "string",
+                        "format" :"string" 
+                    },
+                    "mail" :{
+                        "type" : "string",
+                        "format" : "decimal"
+                    },
+                    "password" : {
+                        "type" : "string",
+                        "format" : "string"
+                    }
+                }
+            },
+            "loginRequest" :{
+                "type" :"object",
+                "properties" :{
+                    "pseudo" :{
+                        "type" : "string",
+                        "format" : "string"
+                    },
+                    "password":{
+                        "type" : "string",
+                        "format" : "string"
+                    }
+                }
+            }
+        }
+    }
+}
