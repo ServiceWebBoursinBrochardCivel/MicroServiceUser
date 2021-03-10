@@ -1,6 +1,5 @@
 from flask import Blueprint,request,jsonify
 from DatabaseManager.connection import db_connection
-from hashlib import sha256
 
 user_api = Blueprint('user_api',__name__)
 
@@ -25,8 +24,6 @@ def users() :
         pseudo = data['pseudo']
         mail = data['mail']
         password = data['password']
-        password = sha256(password.encode())
-        password = password.hexdigest()
         sql = """INSERT INTO user (pseudo,mail,password) VALUES (?,?,?); """
         cursor.execute(sql,(pseudo,mail,password))
         conn.commit()
